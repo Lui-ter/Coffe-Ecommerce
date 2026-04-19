@@ -12,7 +12,7 @@ return new class extends Migration
      public function up(): void
     {
         Schema::create('pedido_items', function (Blueprint $table) {
-            $table->id();
+            $table->id('pedidoitem_codigo');
             // FK al pedido; si se elimina el pedido, se eliminan sus ítems
             $table->foreignId('pedido_id')
                   ->constrained('pedidos')

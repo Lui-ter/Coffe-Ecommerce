@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrito_items', function (Blueprint $table) {
-            $table->id();
+            $table->id('carritoitem_codigo');
             // FK al usuario dueño del carrito
             $table->foreignId('user_id')
                   ->constrained('usuarios')

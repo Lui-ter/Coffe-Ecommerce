@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('producto_skus', function (Blueprint $table) {
-            $table->id();
+            $table->id('productosku_codigo');
             // FK al producto padre; si se elimina el producto, se eliminan todos sus SKUs
             $table->foreignId('producto_id')
                   ->constrained('productos')

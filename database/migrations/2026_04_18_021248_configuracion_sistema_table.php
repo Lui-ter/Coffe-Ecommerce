@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('configuracion_sistema', function (Blueprint $table) {
-            $table->id();
+            $table->id('configuracion_codigo');
             // Clave única del parámetro (ej: 'whatsapp_numero')
             $table->string('clave', 100)->unique();
             // Valor del parámetro; longText para soportar mensajes largos

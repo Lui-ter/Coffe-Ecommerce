@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pedidos', function (Blueprint $table) {
-            $table->id();
+            $table->id('pedido_codigo');
             // FK al usuario que realizó el pedido
             $table->foreignId('user_id')
                   ->constrained('usuarios')
