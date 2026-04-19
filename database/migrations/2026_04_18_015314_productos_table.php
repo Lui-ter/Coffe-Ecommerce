@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id('producto_codigo');
             // FK a la categoría; si se elimina la categoría, se eliminan sus productos
-            $table->foreignId('categoria_id')
-                  ->constrained('categorias')
+            $table->unsignedBigInteger('categoria_id');
+            $table->foreign('categoria_id')
+                  ->references('categoria_codigo')
+                  ->on('categorias')
                   ->onDelete('cascade');
             $table->string('nombre', 150);
             // Slug único para URLs amigables (ej: "huila-especial-lavado")

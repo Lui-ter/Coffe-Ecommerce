@@ -18,15 +18,17 @@ return new class extends Migration
                   ->constrained('usuarios')
                   ->onDelete('cascade');
             // FK al SKU agregado al carrito
-            $table->foreignId('producto_sku_id')
-                  ->constrained('producto_skus')
+            $table->unsignedBigInteger('productosku_id');
+            $table->foreign('productosku_id')
+                  ->references('productosku_codigo')
+                  ->on('producto_skus')
                   ->onDelete('cascade');
             $table->integer('cantidad')->unsigned()->default(1);
             $table->timestamps();
 
             // Un usuario no puede tener el mismo SKU duplicado en su carrito;
             // si lo agrega dos veces, se actualiza la cantidad en el controlador.
-            $table->unique(['user_id', 'producto_sku_id']);
+            $table->unique(['user_id', 'productosku_id']);
         });
     }
 

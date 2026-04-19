@@ -14,15 +14,18 @@ return new class extends Migration
         Schema::create('pedido_items', function (Blueprint $table) {
             $table->id('pedidoitem_codigo');
             // FK al pedido; si se elimina el pedido, se eliminan sus ítems
-            $table->foreignId('pedido_id')
-                  ->constrained('pedidos')
+            $table->unsignedBigInteger('pedido_id');
+            $table->foreign('pedido_id')
+                  ->references('pedido_codigo')
+                  ->on('pedidos')
                   ->onDelete('cascade');
             // FK al SKU comprado; se usa restrictedDelete para no borrar SKUs
             // con historial de ventas accidentalmente
-            $table->foreignId('producto_sku_id')
-                  ->constrained('producto_skus')
-                  ->onDelete('restrict');
-            $table->integer('cantidad')->unsigned();
+            $table->unsignedBigInteger('productosku_id');
+            $table->foreign('productosku_id')
+                  ->references('productosku_codigo')
+                  ->on('producto_skus')
+                  ->onDelete('cascade');
             /**
              * Precio unitario en CENTAVOS al momento de la compra.
              * IMPORTANTE: Este valor es un snapshot histórico.

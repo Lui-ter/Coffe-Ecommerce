@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('producto_skus', function (Blueprint $table) {
             $table->id('productosku_codigo');
             // FK al producto padre; si se elimina el producto, se eliminan todos sus SKUs
-            $table->foreignId('producto_id')
-                  ->constrained('productos')
+            $table->unsignedBigInteger('producto_id');
+            $table->foreign('producto_id')
+                  ->references('producto_codigo')
+                  ->on('productos')
                   ->onDelete('cascade');
             // Código único de referencia (ej: "HUI-ESP-1LB-MED-Grano")
             $table->string('sku', 100)->unique();

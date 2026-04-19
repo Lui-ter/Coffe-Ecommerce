@@ -17,10 +17,11 @@ return new class extends Migration
             // ── Relación con el pedido ────────────────────────────────
             // FK al pedido asociado. Se usa SET NULL para conservar el registro
             // de la transacción incluso si el pedido fuera eliminado por error.
-            $table->foreignId('pedido_id')
-                  ->nullable()
-                  ->constrained('pedidos')
-                  ->onDelete('set null');
+            $table->unsignedBigInteger('pedido_id');
+            $table->foreign('pedido_id')
+                  ->references('pedido_codigo')
+                  ->on('pedidos')
+                  ->onDelete('cascade');
 
             // ── Identificadores de Wompi ──────────────────────────────
             // ID único de la transacción asignado por Wompi (ej: "257494-1697554321-72352")
