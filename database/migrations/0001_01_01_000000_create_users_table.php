@@ -6,45 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up(): void
+    public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verificado_en')->nullable();
-            $table->string('contrasena');
-            // Teléfono con formato internacional para integración con WhatsApp
-            $table->string('telefono', 20)->nullable();
-            // Rol del usuario dentro del sistema: 'cliente' o 'administrador'
-            $table->enum('rol', ['cliente', 'administrador'])->default('cliente');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable(); // nullable para login social
+            $table->string('phone', 20)->nullable();         // para el envío por WhatsApp
+            $table->string('whatsapp_number', 20)->nullable(); // número WA específico si es diferente
+            $table->enum('role', ['admin', 'staff', 'customer'])->default('customer');
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
-        });
+            $table->softDeletes();
 
-        Schema::create('tokens_reset_contrasena', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('creado_en')->nullable();
-        });
-
-        Schema::create('sesiones', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('ultima_actividad')->index();
+            $table->index('email');
+            $table->index('phone');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('sesiones');
-        Schema::dropIfExists('tokens_reset_contrasena');
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('users');
     }
 };
